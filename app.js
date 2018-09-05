@@ -1,33 +1,36 @@
-
 //File System 
-let fs = require('fs');
+const fs = require('fs');
 
 // Funcion encargada de leer el documento .md
 const readFile = () => {
-    fs.readFile('./README.md', 'utf-8', callback = (err, data)=>{
+    fs.readFile('./README.md', 'utf-8',  (err, data) => {
         if (err) {
             console.log('Tienes un error, verifica'); 
         }else {
             //Invocamos la función convert para pasarle la data
-            convert(data);
+            url(data);
         }
     });
 }
 readFile();
 
-const convert = (data) => {
-    //console.log(data);
-    let route = /(http:\/\/|https:\/\/|www\.)[^\s]+/gim;
-    //let url = /\[./;
-    let dataRoute = data.match(route);
-        console.log(dataRoute);
-    
+const url = (data) => {
+    //Expresión para traer el nombre de los url
+    const nameUrl = /\[[a-zA-Z_ \/$]*\]/gim;
+    const getName = data.match(nameUrl);
+        console.log(getName);
+    //Expresión para encontrar el url y traerlo
+    const expReg = /(http:\/\/|https:\/\/|www\.)[^\s\)]+/gim;
+    const getUrl = data.match(expReg);
+        console.log(getUrl);
+    //array.forEach(element => {
         
+   // });
+    
+
+
 };
 
 
-//module.exports = {
-  //  readFile
-//}
 
 
