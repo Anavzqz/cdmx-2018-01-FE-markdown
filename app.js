@@ -46,7 +46,7 @@ const newArray = (getName, getUrl) => {
 newArray();
 }
 
-/*const validate = () => {
+const validate = () => {
     let i = 0;
     for (i; i < getUrl.length; i++) {
         fetch(getUrl[i])
@@ -58,7 +58,7 @@ newArray();
             }
         });
     }
-}*/
+}
 
 //md links(path, options)
 //path (ruta absoluta o relativa al archivo o directorio).
