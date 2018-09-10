@@ -2,12 +2,14 @@
 const fs = require('fs');
 const fetch = require('node-fetch');
 const file = './README.md';
+const path = require('path');
 
 //path
 const route = (file) => {
-    return file = resolve(file);
+    file = path.resolve(file);
+    return file;
 };
-route('./README.md');
+
 
 // Funcion encargada de leer el documento .md
 const readFile = (callback) => {
@@ -26,39 +28,44 @@ const url = (data) => {
     //Expresión para traer el nombre de los url
     const nameUrl = /\[[a-zA-Z_ \/$]*\]/gim;
     const getName = data.match(nameUrl);
-        console.log(getName);
+    
     //Expresión para encontrar el url y traerlo
     const expReg = /(http:\/\/|https:\/\/|www\.)[^\s\)]+/gim;
     const getUrl = data.match(expReg);
-        console.log(getUrl);
+    newArray(getName, getUrl);
 };
 
 const newArray = (getName, getUrl) => {
-    let infoObj = [];
-    let i = 0;
-    for (i; i < getUrl.length; i++){
-        infoObj.push({
-        href: getUrl[i],
-        text: getName[i],
-        file: route(file)
+  let infoObj = [];
+    for (let i = 0; i < getUrl.length; i++) {
+        let arr = {
+            text: getName[i],
+            href: getUrl[i],
+            file: route(file)
+    }
+    infoObj.push(arr);
+}
+console.log(infoObj);
+validate(getUrl);
+}
+//Después de tener el arreglo de objetos iteramos con .map para que nos de un nuevo arreglo
+const validate = (getUrl) => {
+    let statusUrl = getUrl.map((obj) => {
+        return {status: '', ...obj }
     });
-}
-newArray();
-}
-
-const validate = () => {
-    let i = 0;
-    for (i; i < getUrl.length; i++) {
-        fetch(getUrl[i])
+    statusUrl.forEach(urL => {
+        fetch(urL.href)
         .then((res) => {
-            console.log(res);
             //Si pasa el status, damos una condición
-            if(status === 200){
-                return 
+            if(res.status === 200){
+                console.log(res);
+            } else {
+                console.log('fail');
             }
         });
+    }); 
+        console.log(statusUrl);
     }
-}
 
 //md links(path, options)
 //path (ruta absoluta o relativa al archivo o directorio).
@@ -67,6 +74,3 @@ const validate = () => {
 
 //validate: Valor que determina si se desea validar los links encontrados en el archivo. (tipo de dato booleano)
 //stats: Valor que determina si se desea calcular los stats de de los links encontrados en el archivo. (tipo de dato booleano)
-
-
-
