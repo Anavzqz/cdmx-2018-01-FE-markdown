@@ -12,19 +12,24 @@ const route = (file) => {
 
 
 // Funcion encargada de leer el documento .md
-const readFile = (callback) => {
-    fs.readFile(file, 'utf-8',  (err, data) => {
-        if (err) {
-            console.log('Tienes un error, verifica'); 
-        }else {
-            //Invocamos la función convert para pasarle la data
-            url(data);
-        }
+const readFile = (file) => {
+    new Promise(function(reject, resolve){
+        fs.readFile(file, 'utf-8',  (err, data) => { 
+            if (err) {
+                return reject(err); 
+            }else {
+                return resolve(data)
+                //Invocamos la función convert para pasarle la data
+                //url(data);
+            } 
+    });  
     });
 }
-readFile();
+readFile(data)
+.then
 
 const url = (data) => {
+    new Promise
     //Expresión para traer el nombre de los url
     const nameUrl = /\[[a-zA-Z_ \/$]*\]/gim;
     const getName = data.match(nameUrl);
@@ -48,7 +53,7 @@ const newArray = (getName, getUrl) => {
 console.log(infoObj);
 validate(infoObj);
 }
-//Después de tener el arreglo de objetos iteramos con .map para que nos de un nuevo arreglo con el status
+//Después de tener el arreglo de objetos iteramos con .map para que nos de un nuevo arreglo agregando el status
 const validate = (infoObj) => {
     let statusUrl = infoObj.map((obj) => {
         return {status: '', ...obj }
