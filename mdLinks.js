@@ -46,31 +46,23 @@ const newArray = (getName, getUrl) => {
     infoObj.push(arr);
 }
 console.log(infoObj);
-validate(getUrl);
+validate(infoObj);
 }
-//Después de tener el arreglo de objetos iteramos con .map para que nos de un nuevo arreglo
-const validate = (getUrl) => {
-    let statusUrl = getUrl.map((obj) => {
+//Después de tener el arreglo de objetos iteramos con .map para que nos de un nuevo arreglo con el status
+const validate = (infoObj) => {
+    let statusUrl = infoObj.map((obj) => {
         return {status: '', ...obj }
     });
     statusUrl.forEach(urL => {
         fetch(urL.href)
         .then((res) => {
             //Si pasa el status, damos una condición
-            if(res.status === 200){
-                console.log(res);
+            if(res.status === 404){
+                urL.status = 'FAIL 404';
             } else {
-                console.log('fail');
+                urL.status = 'OK 200';
             }
         });
     }); 
-        console.log(statusUrl);
-    }
-
-//md links(path, options)
-//path (ruta absoluta o relativa al archivo o directorio).
-
-//options: Un objeto con las siguientes propiedades:
-
-//validate: Valor que determina si se desea validar los links encontrados en el archivo. (tipo de dato booleano)
-//stats: Valor que determina si se desea calcular los stats de de los links encontrados en el archivo. (tipo de dato booleano)
+    return statusUrl;
+    };
